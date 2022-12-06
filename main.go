@@ -3,6 +3,7 @@ package main
 func main() {
 	//fmt.Printf("foo\n")
 
-	day1()
+	//day1()
+	day2()
 }
 
