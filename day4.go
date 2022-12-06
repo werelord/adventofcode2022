@@ -21,7 +21,7 @@ func day4(inp string) {
 		fullyContainCount, overlapCount int
 	)
 
-	for line := range readFile(file) {
+	for line := range readLines(file) {
 
 		var first, second = toPair(line)
 

@@ -20,7 +20,7 @@ func day3() {
 		badgelist = make([]string, 0, 3)
 	)
 
-	for line := range readFile(file) {
+	for line := range readLines(file) {
 
 		var (
 			packSize = len(line) / 2

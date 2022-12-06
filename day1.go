@@ -21,7 +21,7 @@ func day1() {
 		calList = make([]int64, 0)
 	)
 
-	for line := range readFile(file) {
+	for line := range readLines(file) {
 
 		if line == "" {
 			//fmt.Printf("%v has %v\n", len(calList)+1, currentTotal)

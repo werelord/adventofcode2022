@@ -71,7 +71,7 @@ func day5(inp string) {
 		r = regexp.MustCompile("move ([0-9]+) from ([0-9]+) to ([0-9]+)")
 	)
 
-	for line := range readFile(file) {
+	for line := range readLines(file) {
 
 		matches := r.FindStringSubmatch(line)
 

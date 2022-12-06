@@ -8,7 +8,15 @@ import (
 	"path/filepath"
 )
 
-func readFile(filename string) chan string {
+func readLines(filename string) chan string {
+	return readFile(filename, bufio.ScanLines)
+}
+
+func readRunes(filename string) chan string {
+	return readFile(filename, bufio.ScanRunes)
+}
+
+func readFile(filename string, splitFunc bufio.SplitFunc) chan string {
 
 	var out = make(chan string, 1)
 	go func() {
@@ -22,6 +30,7 @@ func readFile(filename string) chan string {
 		defer close(out)
 
 		var fileScanner = bufio.NewScanner(file)
+		fileScanner.Split(splitFunc)
 
 		for fileScanner.Scan() {
 			out <- fileScanner.Text()
@@ -111,4 +120,42 @@ func Reverse[T any](inp []T) []T {
 		ret = append(ret, inp[i])
 	}
 	return ret
+}
+
+type Queue[T any] struct {
+	data []T
+}
+
+func NewQueue[T any](vals ...T) Queue[T] {
+	var ret Queue[T]
+	ret.data = make([]T, 0, len(vals))
+
+	if len(vals) > 0 {
+		ret.data = append(ret.data, vals...)
+	}
+	return ret
+}
+func (q Queue[T]) Len() int {
+	return len(q.data)
+}
+func (q Queue[T]) Peek() (v T, err error) {
+	if len(q.data) == 0 {
+		err = errors.New("stack is empty")
+		return
+	} else {
+		return q.data[0], nil
+	}
+}
+func (q *Queue[T]) Enqueue(v ...T) {
+	q.data = append(q.data, v...)
+}
+func (q *Queue[T]) Dequeue() (v T, err error) {
+	if len(q.data) == 0 {
+		err = fmt.Errorf("unable to dequeue; queue is empty")
+		return
+	} else {
+		v = q.data[0]
+		q.data = q.data[1:]
+		return v, nil
+	}
 }

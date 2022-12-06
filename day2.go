@@ -61,7 +61,7 @@ func day2() {
 	var part1score = 0
 	var part2score = 0
 
-	for line := range readFile(file) {
+	for line := range readLines(file) {
 		s := strings.Fields(line)
 		if len(s) != 2 {
 			panic(fmt.Errorf("bad parse: %q", line))
