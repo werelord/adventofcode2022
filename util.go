@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -37,4 +38,77 @@ func currentDir() string {
 		return filepath.Dir(ex)
 	}
 
+}
+
+type Stack[T any] struct {
+	data []T
+}
+
+func NewStack[T any](vals ...T) Stack[T] {
+	var ret Stack[T]
+	ret.data = make([]T, 0, len(vals))
+
+	if len(vals) > 0 {
+		ret.data = append(ret.data, vals...)
+	}
+	return ret
+}
+func (s Stack[T]) Len() int {
+	return len(s.data)
+}
+func (s Stack[T]) Peek() (v T, err error) {
+	if len(s.data) == 0 {
+		err = errors.New("stack is empty")
+		return
+	} else {
+		return s.data[len(s.data)-1], nil
+	}
+}
+func (s *Stack[T]) Push(v ...T) {
+	s.data = append(s.data, v...)
+}
+func (s *Stack[T]) PopOne() (T, error) {
+	v, err := s.Pop(1)
+	return v[0], err
+}
+
+func (s *Stack[T]) Pop(count int) (v []T, err error) {
+	v = make([]T, 0, count)
+
+	if count < 0 {
+		err = errors.New("count cannot be < 0")
+		return
+	} else if count == 0 {
+		return
+	} else if len(s.data)-count < 0 {
+		err = fmt.Errorf("unable to pop %v items", count)
+		return
+	} else {
+		v = Reverse(s.data[len(s.data)-count:])
+		s.data = s.data[:len(s.data)-count]
+		return v, nil
+	}
+}
+func (s Stack[T]) String(fn func(T) string) string {
+	// top to bottom
+	var str string
+	for i := len(s.data) - 1; i >= 0; i-- {
+		var delim = ""
+		if len(str) > 0 {
+			delim = ":"
+		} else {
+			delim = "(top) "
+		}
+		str = fmt.Sprintf("%v%v%v", str, delim, fn(s.data[i]))
+
+	}
+	return str
+}
+
+func Reverse[T any](inp []T) []T {
+	var ret = make([]T, 0, len(inp))
+	for i := len(inp) - 1; i >= 0; i-- {
+		ret = append(ret, inp[i])
+	}
+	return ret
 }

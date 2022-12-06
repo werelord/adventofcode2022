@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+// https://adventofcode.com/2022/day/2
+
 type Shape int
 type Result int
 

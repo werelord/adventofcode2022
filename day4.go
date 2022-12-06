@@ -7,13 +7,15 @@ import (
 	"strconv"
 )
 
+// https://adventofcode.com/2022/day/4
+
 type Pair struct {
 	lower int
 	upper int
 }
 
-func day4() {
-	file := filepath.Join(currentDir(), "input", "day4.txt")
+func day4(inp string) {
+	file := filepath.Join(currentDir(), "input", inp)
 
 	var (
 		fullyContainCount, overlapCount int
@@ -39,7 +41,7 @@ func day4() {
 func toPair(s string) (Pair, Pair) {
 
 	var (
-		rx = regexp.MustCompile("([0-9]*)-([0-9]*),([0-9]*)-([0-9]*)")
+		rx      = regexp.MustCompile("([0-9]*)-([0-9]*),([0-9]*)-([0-9]*)")
 		matches = rx.FindStringSubmatch(s)
 
 		pair1, pair2 Pair

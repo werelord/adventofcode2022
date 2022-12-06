@@ -7,6 +7,7 @@ import (
 )
 
 // https://adventofcode.com/2022/day/1
+
 func day1() {
 
 	file := filepath.Join(currentDir(), "input", "day1.txt")
