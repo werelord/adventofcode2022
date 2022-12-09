@@ -40,6 +40,11 @@ func readFile(filename string, splitFunc bufio.SplitFunc) chan string {
 	return out
 }
 
+// todo: make generic
+func abs(i int) int {
+	if i < 0  { return -i } else { return i }
+}
+
 func currentDir() string {
 	if ex, err := os.Executable(); err != nil {
 		panic(err)
