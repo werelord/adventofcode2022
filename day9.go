@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// https://adventofcode.com/2022/day/9
+
 type knot struct {
 	coord
 
