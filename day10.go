@@ -26,7 +26,8 @@ func day10() {
 		regX           = 1 // default starting point for register
 		cycleInterrupt = []int{20, 60, 100, 140, 180, 220}
 
-		screen = []string{"", "", "", "", "", ""}
+		// screen = []string{"", "", "", "", "", ""}
+		screen string
 
 		signalSum int
 	)
@@ -45,8 +46,9 @@ func day10() {
 				fmt.Printf("cycle %v, regX: %v, strength: %v, totSum: %v\n", curCycle, regX, strength, signalSum)
 			}
 
-			var bufIndex = (curCycle-1) / 40
-			drawScreen(curCycle, regX, &(screen[bufIndex]))
+			// var bufIndex = (curCycle - 1) / 40
+			// drawScreen(curCycle, regX, &(screen[bufIndex]))
+			drawScreen(curCycle, regX, &screen)
 
 		}
 
@@ -58,8 +60,11 @@ func day10() {
 
 	fmt.Printf("total cycles: %v, totSigStrength:%v\nScreen:\n", curCycle, signalSum)
 
-	for _, buf := range screen {
-		fmt.Printf("%v\n", buf)
+	// for _, buf := range screen {
+	// 	fmt.Printf("%v\n", buf)
+	// }
+	for x := 0; x < 6; x++ {
+		fmt.Printf("%v\n", screen[x*40:(x+1)*40])
 	}
 }
 
@@ -90,9 +95,9 @@ func getOperation(line string, curCycle int) operation {
 }
 
 func drawScreen(cycle, regX int, screenBuf *string) {
-	if (regX <= 0) || (regX >= 40) {
-		fmt.Print("regx beyond screen!\n")
-	}
+	// if (regX <= 0) || (regX >= 40) {
+	// fmt.Print("regx beyond screen!\n")
+	// }
 
 	var screenPos = (cycle - 1) % 40
 	if (regX-1 == screenPos) || (regX == screenPos) || (regX+1 == screenPos) {
