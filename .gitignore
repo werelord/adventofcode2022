@@ -23,7 +23,4 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
-gopod.log
-master.json
-dbexport/
+input/
