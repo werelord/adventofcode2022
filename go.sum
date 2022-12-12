@@ -1,2 +1,4 @@
+github.com/fzipp/astar v0.2.0 h1:vEmeszAm62kB02Qh/oXQNrVR8p6G00WAJIkVRJYzekc=
+github.com/fzipp/astar v0.2.0/go.mod h1:1zYE8kcTMuS0g+b9Vh9lfR7t0MleOH6EneyA3esiLEc=
 golang.org/x/exp v0.0.0-20221208152030-732eee02a75a h1:4iLhBPcpqFmylhnkbY3W0ONLUYYkDAW9xMFLfxgsvCw=
 golang.org/x/exp v0.0.0-20221208152030-732eee02a75a/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
