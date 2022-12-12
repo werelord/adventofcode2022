@@ -127,7 +127,7 @@ func day9(inp string) {
 		currentKnot = &newtail
 	}
 
-	test(head)
+	test9(head)
 
 	for line := range readLines(file) {
 		handleMovement(line, head)
@@ -235,7 +235,7 @@ func (c *knot) headMoved(newHead coord) bool {
 	return currentMoved
 }
 
-func test(head *knot) {
+func test9(head *knot) {
 
 	// var checkAfter = func(head *knot, after ...coord) {
 

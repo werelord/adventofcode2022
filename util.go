@@ -35,14 +35,18 @@ func readFile(filename string, splitFunc bufio.SplitFunc) chan string {
 		for fileScanner.Scan() {
 			out <- fileScanner.Text()
 		}
-		//fmt.Println("file done")
+		// fmt.Println("file done")
 	}()
 	return out
 }
 
 // todo: make generic
 func abs(i int) int {
-	if i < 0  { return -i } else { return i }
+	if i < 0 {
+		return -i
+	} else {
+		return i
+	}
 }
 
 func currentDir() string {
@@ -163,4 +167,22 @@ func (q *Queue[T]) Dequeue() (v T, err error) {
 		q.data = q.data[1:]
 		return v, nil
 	}
+}
+func (q *Queue[T]) DequeueIter() <-chan T {
+	// probably good enough
+	c := make(chan T, 1)
+	go func() {
+		for {
+			if v, err := q.Dequeue(); err != nil {
+				panic(err)
+			} else {
+				c <- v
+			}
+			if q.Len() == 0 {
+				break
+			}
+		}
+		defer close(c)
+	}()
+	return c
 }
