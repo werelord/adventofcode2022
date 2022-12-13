@@ -14,5 +14,6 @@ func main() {
 	// day9("day9.txt")
 	// day10()
 	// day11()
-	day12()
+	// day12()
+	day13()
 }
