@@ -10,21 +10,21 @@ import (
 // https://adventofcode.com/2022/day/9
 
 type knot struct {
-	coord
+	coordDay9
 
 	name     string
 	next     *knot
 	moveList map[string]int
 }
 
-type coord struct {
+type coordDay9 struct {
 	x, y int
 }
 
 func (c knot) String() string {
 	return fmt.Sprintf("%v(%v,%v)", c.name, c.x, c.y)
 }
-func (c coord) String() string {
+func (c coordDay9) String() string {
 	return fmt.Sprintf("(%v,%v)", c.x, c.y)
 }
 
@@ -44,17 +44,17 @@ func (c knot) recordMove() {
 // 	return (c.x != new.x) || (c.y != new.y)
 // }
 
-func (c coord) isDiagonalMove(new coord) bool {
+func (c coordDay9) isDiagonalMove(new coordDay9) bool {
 	// head and tail are in completely different row & column, need to move diag to keep up
 	return (c.x != new.x) && (c.y != new.y)
 }
 
-func (c coord) shouldMove(head coord) bool {
+func (c coordDay9) shouldMove(head coordDay9) bool {
 	dx, dy := c.getDiff(head)
 	return abs(dx) > 1 || abs(dy) > 1
 }
 
-func (c knot) moveLinear(head coord) coord {
+func (c knot) moveLinear(head coordDay9) coordDay9 {
 	// either row or column will be different, by 2.. other should be 0
 	dx, dy := c.getDiff(head)
 	// fmt.Print("L")
@@ -63,7 +63,7 @@ func (c knot) moveLinear(head coord) coord {
 	} else {
 		// non-diff will be zero, no move
 		// negatvie dx or dy will end up a subtration, positive an addition
-		var n = coord{}
+		var n = coordDay9{}
 		if abs(dx) > 0 {
 			n.x = c.x + dx/2
 			n.y = c.y
@@ -77,14 +77,14 @@ func (c knot) moveLinear(head coord) coord {
 	}
 }
 
-func (c knot) moveDiagonal(head coord) coord {
+func (c knot) moveDiagonal(head coordDay9) coordDay9 {
 	// both x and y should be > 0
 	// fmt.Print("D")
 	dx, dy := c.getDiff(head)
 	if dx == 0 || dy == 0 {
 		panic(fmt.Sprintf("move diag, but both dx & dy are not zero: dx%v dy%v", dx, dy))
 	} else {
-		var n = coord{}
+		var n = coordDay9{}
 		// diagonal move, either abs(dx) == 2 and/or abs(dy) == 2.. the other coord should be 1
 
 		// dividing by 2 keeps sign
@@ -101,7 +101,7 @@ func (c knot) moveDiagonal(head coord) coord {
 	}
 }
 
-func (c coord) getDiff(head coord) (dx, dy int) {
+func (c coordDay9) getDiff(head coordDay9) (dx, dy int) {
 	return head.x - c.x, head.y - c.y
 }
 
@@ -178,30 +178,30 @@ func handleMovement(line string, head *knot) {
 func moveHead(head *knot, x, y, iter int) {
 	// fmt.Printf("moving head (x%vy%v)*%v:\n", x, y, iter)
 	for it := 0; it < iter; it++ {
-		var prevHead = head.coord
+		var prevHead = head.coordDay9
 		head.x += x
 		head.y += y
 
 		// fmt.Printf("moved:%v", head)
 		// should recursively move down tail.. this is always head, will always have tail
-		var tailMoved = head.next.headMoved(head.coord)
+		var tailMoved = head.next.headMoved(head.coordDay9)
 
 		fmt.Printf("\n")
 
 		// sanity check for tail; should really be previous head
-		if tailMoved && prevHead != head.next.coord {
+		if tailMoved && prevHead != head.next.coordDay9 {
 			panic("wtf, we're off base")
 		}
 
 	}
 }
 
-func (c *knot) headMoved(newHead coord) bool {
+func (c *knot) headMoved(newHead coordDay9) bool {
 
 	var currentMoved bool
 	if currentMoved = c.shouldMove(newHead); currentMoved {
 		// move tail
-		var newCoord coord
+		var newCoord coordDay9
 		if c.isDiagonalMove(newHead) {
 			newCoord = c.moveDiagonal(newHead)
 		} else {
@@ -215,7 +215,7 @@ func (c *knot) headMoved(newHead coord) bool {
 				panic("wtf, we're off base")
 			}
 		}
-		c.coord = newCoord
+		c.coordDay9 = newCoord
 
 		// record move if applicable
 		c.recordMove()
@@ -229,7 +229,7 @@ func (c *knot) headMoved(newHead coord) bool {
 	// we only need to propegate down if this one moved
 	if currentMoved && c.next != nil {
 		// move the tail
-		c.next.headMoved(c.coord)
+		c.next.headMoved(c.coordDay9)
 
 	}
 	return currentMoved
